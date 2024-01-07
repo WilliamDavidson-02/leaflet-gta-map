@@ -35,6 +35,8 @@ const gtaVIcon = leaflet.icon({
   popupAnchor: [-5, -50],
 });
 let marker: leaflet.Marker | null = null;
+const targetLocation = { lat: -5549.5, lng: 3170 };
+leaflet.marker(targetLocation).addTo(map);
 
 leaflet
   .tileLayer(TILE_PATH, {
@@ -48,10 +50,20 @@ leaflet
 map.fitBounds(bounds);
 
 map.on("click", (ev) => {
-  console.log(marker);
   if (marker) {
     marker.setLatLng(ev.latlng);
   } else {
     marker = leaflet.marker(ev.latlng, { icon: gtaVIcon }).addTo(map);
   }
+  calcDistance(ev.latlng);
 });
+
+function calcDistance(cords: { lat: number; lng: number }) {
+  // Calculating the distance between the two points using the Pythagorean theorem
+  const diffLng = cords.lng - targetLocation.lng;
+  const diffLat = cords.lat - targetLocation.lat;
+  const distance = Math.floor(Math.sqrt(diffLng * diffLng + diffLat * diffLat));
+  const distanceKm = `${(distance / 1000).toFixed(1)} km`;
+
+  console.log(distance >= 1000 ? distanceKm : `${distance} m`);
+}
