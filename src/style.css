@@ -6,3 +6,7 @@
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
+
+.leaflet-container {
+  background: #093d68 !important;
+}
