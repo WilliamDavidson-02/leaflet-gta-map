@@ -35,8 +35,9 @@ const gtaVIcon = leaflet.icon({
   popupAnchor: [-5, -50],
 });
 let marker: leaflet.Marker | null = null;
+let polyline: leaflet.Polyline | null = null;
 const targetLocation = { lat: -5549.5, lng: 3170 };
-leaflet.marker(targetLocation).addTo(map);
+leaflet.marker(targetLocation, { icon: gtaVIcon }).addTo(map);
 
 leaflet
   .tileLayer(TILE_PATH, {
@@ -52,9 +53,13 @@ map.fitBounds(bounds);
 map.on("click", (ev) => {
   if (marker) {
     marker.setLatLng(ev.latlng);
+    if (polyline) map.removeLayer(polyline);
   } else {
     marker = leaflet.marker(ev.latlng, { icon: gtaVIcon }).addTo(map);
   }
+  polyline = leaflet
+    .polyline([targetLocation, ev.latlng], { color: "#000" })
+    .addTo(map);
   calcDistance(ev.latlng);
 });
 
