@@ -10,3 +10,13 @@
 .leaflet-container {
   background: #093d68 !important;
 }
+
+#panorama {
+  height: 250px;
+}
+
+@media (min-width: 768px) {
+  #panorama {
+    height: 400px;
+  }
+}

@@ -6,7 +6,7 @@ const submitLocationBtn = document.querySelector(
 ) as HTMLButtonElement;
 const distanceContainer = document.querySelector("#distance") as HTMLDivElement;
 
-const TILE_PATH = "satellite/{z}/{x}/{y}.png";
+const TILE_URI = "satellite/{z}/{x}/{y}.png";
 const MAP_EXTENT = [0, -8192, 8192, 0];
 const TILE_EXTENT = [0, -8192, 8192, 0];
 const maxZoom = 5;
@@ -41,10 +41,10 @@ const gtaVIcon = leaflet.icon({
 });
 let marker: leaflet.Marker | null = null;
 let polyline: leaflet.Polyline | null = null;
-const targetLocation = { lat: -5772, lng: 3867.5 };
+const targetLocation = { lat: -7062.5, lng: 3984.403928010854 };
 
 leaflet
-  .tileLayer(TILE_PATH, {
+  .tileLayer(TILE_URI, {
     maxZoom,
     tileSize: 512,
     attribution: "",

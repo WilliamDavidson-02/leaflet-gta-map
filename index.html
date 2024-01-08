@@ -11,11 +11,19 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./src/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"
+    ></script>
     <title>GTA V map</title>
   </head>
-  <body class="flex flex-col md:flex-row">
+  <body class="flex h-screen flex-col md:flex-row">
     <div class="flex flex-col gap-2 bg-white p-4 md:w-1/3">
-      <img src="/gta-street-test.webp" alt="" />
+      <div id="panorama"></div>
       <button
         id="submit-location-btn"
         class="bg-blue-800 p-2 text-white transition-colors duration-300 hover:bg-blue-600"
@@ -24,7 +32,13 @@
       </button>
       <div id="distance"></div>
     </div>
-    <div id="map" class="h-screen md:w-2/3"></div>
+    <div id="map" class="h-2/3 md:h-screen md:w-2/3"></div>
     <script type="module" src="./src/map.ts"></script>
+    <script>
+      pannellum.viewer("panorama", {
+        type: "equirectangular",
+        panorama: "/gta_360.jpg",
+      });
+    </script>
   </body>
 </html>
