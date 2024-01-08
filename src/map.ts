@@ -1,6 +1,11 @@
 import "leaflet/dist/leaflet.css";
 import leaflet from "leaflet";
 
+const submitLocationBtn = document.querySelector(
+  "#submit-location-btn",
+) as HTMLButtonElement;
+const distanceContainer = document.querySelector("#distance") as HTMLDivElement;
+
 const TILE_PATH = "satellite/{z}/{x}/{y}.png";
 const MAP_EXTENT = [0, -8192, 8192, 0];
 const TILE_EXTENT = [0, -8192, 8192, 0];
@@ -36,8 +41,7 @@ const gtaVIcon = leaflet.icon({
 });
 let marker: leaflet.Marker | null = null;
 let polyline: leaflet.Polyline | null = null;
-const targetLocation = { lat: -5549.5, lng: 3170 };
-leaflet.marker(targetLocation, { icon: gtaVIcon }).addTo(map);
+const targetLocation = { lat: -5772, lng: 3867.5 };
 
 leaflet
   .tileLayer(TILE_PATH, {
@@ -57,18 +61,27 @@ map.on("click", (ev) => {
   } else {
     marker = leaflet.marker(ev.latlng, { icon: gtaVIcon }).addTo(map);
   }
-  polyline = leaflet
-    .polyline([targetLocation, ev.latlng], { color: "#000" })
-    .addTo(map);
-  calcDistance(ev.latlng);
 });
 
-function calcDistance(cords: { lat: number; lng: number }) {
+function calcDistance(cords: { lat: number; lng: number }): string {
   // Calculating the distance between the two points using the Pythagorean theorem
   const diffLng = cords.lng - targetLocation.lng;
   const diffLat = cords.lat - targetLocation.lat;
   const distance = Math.floor(Math.sqrt(diffLng * diffLng + diffLat * diffLat));
   const distanceKm = `${(distance / 1000).toFixed(1)} km`;
 
-  console.log(distance >= 1000 ? distanceKm : `${distance} m`);
+  return distance >= 1000 ? distanceKm : `${distance} m`;
 }
+
+submitLocationBtn.addEventListener("click", () => {
+  const latlng = marker?.getLatLng();
+  if (!latlng) return;
+  const cords = { lat: latlng.lat, lng: latlng.lng };
+
+  distanceContainer.textContent = calcDistance(cords);
+  polyline = leaflet
+    .polyline([targetLocation, cords], {
+      color: "#000",
+    })
+    .addTo(map);
+});
