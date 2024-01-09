@@ -9,6 +9,7 @@ const distanceContainer = document.querySelector("#distance") as HTMLDivElement;
 const TILE_URI = "satellite/{z}/{x}/{y}.png";
 const MAP_EXTENT = [0, -8192, 8192, 0];
 const TILE_EXTENT = [0, -8192, 8192, 0];
+const minZoom = 0;
 const maxZoom = 5;
 const maxResolution = 0.25;
 const minResolution = Math.pow(2, maxZoom + 1) * maxResolution;
@@ -19,10 +20,10 @@ const CRS = Object.assign(Object.assign({}, leaflet.CRS.Simple), {
     -1,
     TILE_EXTENT[3],
   ),
-  scale: (r: any) => {
+  scale: (r: number) => {
     return Math.pow(2, r) / minResolution;
   },
-  zoom: (r: any) => {
+  zoom: (r: number) => {
     return Math.log(r * minResolution) / Math.LN2;
   },
 });
@@ -45,6 +46,7 @@ const targetLocation = { lat: -3151.5, lng: 4714.5 };
 
 leaflet
   .tileLayer(TILE_URI, {
+    minZoom,
     maxZoom,
     tileSize: 512,
     attribution: "",
@@ -53,6 +55,8 @@ leaflet
   })
   .addTo(map);
 map.fitBounds(bounds);
+
+map.setZoom(1);
 
 map.on("click", (ev) => {
   if (marker) {
