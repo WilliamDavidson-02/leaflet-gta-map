@@ -35,9 +35,44 @@
     <div id="map" class="h-2/3 md:h-screen md:w-2/3"></div>
     <script type="module" src="./src/map.ts"></script>
     <script>
-      pannellum.viewer("panorama", {
-        type: "equirectangular",
-        panorama: "/gta_360.jpg",
+      const viewer = pannellum.viewer("panorama", {
+        default: {
+          firstScene: "scene1",
+          sceneFadeDuration: 1000,
+        },
+        scenes: {
+          scene1: {
+            hfov: 75,
+            pitch: 0,
+            yaw: 0,
+            type: "equirectangular",
+            panorama: "/360_1.jpg",
+            hotSpots: [
+              {
+                pitch: 0,
+                yaw: 0,
+                type: "scene",
+                sceneId: "scene2",
+              },
+            ],
+          },
+          scene2: {
+            hfov: 75,
+            pitch: 0,
+            yaw: 0,
+            type: "equirectangular",
+            panorama: "/360_2.jpg",
+            hotSpots: [
+              {
+                pitch: 0,
+                yaw: 170,
+                type: "scene",
+                sceneId: "scene1",
+              },
+            ],
+          },
+        },
+        autoLoad: true,
       });
     </script>
   </body>

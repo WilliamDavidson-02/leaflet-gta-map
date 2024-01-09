@@ -41,7 +41,7 @@ const gtaVIcon = leaflet.icon({
 });
 let marker: leaflet.Marker | null = null;
 let polyline: leaflet.Polyline | null = null;
-const targetLocation = { lat: -7062.5, lng: 3984.403928010854 };
+const targetLocation = { lat: -3151.5, lng: 4714.5 };
 
 leaflet
   .tileLayer(TILE_URI, {
